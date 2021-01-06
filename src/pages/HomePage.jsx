@@ -12,12 +12,24 @@ const HomePage = () => {
 
   const [webStatus, setWebStatus] = useState("idle")
 
+  useEffect(() => {
+    getData()
+      .then((res) => {
+        setInitialData(res)
+        setWebStatus("success")
+      })
+      .catch((err) => {
+        setWebStatus("error")
+      })
+
+  }, [])
+
   const getData = async () => {
+    setWebStatus("loading")
+    delay(3000)
     if (Math.random() < SHUTDOWN_RATE) {
       throw new Error("模擬錯誤 請重新整理")
     }
-    setWebStatus("loading")
-    delay(3000)
     return heroData
   }
 
@@ -25,18 +37,17 @@ const HomePage = () => {
     setTimeout(() => { }, ms)
   }
 
-  useEffect(() => {
-    getData()
-    setInitialData(heroData)
-  }, [])
 
-  return (
-    <BrowserRouter>
+  return (<>
+    { webStatus === "success" && <BrowserRouter>
       <HeroBlock initialData={initialData} />
       <Switch>
         <TalentBlock />
       </Switch>
     </BrowserRouter>
-  )
+    }
+    {webStatus === "loading" && <h1>Loading</h1>}
+    {webStatus === "error" && <h1>模擬錯誤 請重新整理</h1>}
+  </>)
 };
 export default HomePage;
