@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route } from "react-router-dom";
 import { heroData } from "../../data/HeroData";
 import TalentItemBlock from "./TalentItemBlock";
 import styled from "styled-components";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const StyledTalenBlock = styled.div`
   padding-top: 100px;
   background-color: #eee;

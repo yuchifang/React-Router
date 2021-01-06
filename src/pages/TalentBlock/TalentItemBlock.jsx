@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import SelectorItem from "../../components/SelectorItem";
 import styled from "styled-components";
+import { Button } from 'react-bootstrap';
+
 
 const StyledFlex = styled.div`
   display: flex;
@@ -16,9 +18,8 @@ const defaultTalent = {
   total: 10
 };
 const TalentItemBlock = ({ ename }) => {
-  // const [totalPoint, setTotalPoint] = useState(10);
 
-  const getDefaultValue = () => {
+  const getLocalStorageValue = () => {
     var defaultValue = JSON.parse(localStorage.getItem(ename));
     if (!!defaultValue) {
       return defaultValue;
@@ -27,14 +28,18 @@ const TalentItemBlock = ({ ename }) => {
     }
   };
 
-  const [point, setPoint] = useState(getDefaultValue);
+  const [point, setPoint] = useState(getLocalStorageValue);
 
-  const handleDisable = () => {
+  const handleSubmitBtnDisable = () => {
     if (point.total === 0) {
       return false;
     } else {
       return true;
     }
+  };
+
+  const handleSubmit = () => {
+    localStorage.setItem(ename, JSON.stringify(point));
   };
 
   const handleAdd = (selectTitle) => {
@@ -45,7 +50,6 @@ const TalentItemBlock = ({ ename }) => {
         total: point.total - 1
       };
     });
-    // await setTotalPoint((preState) => preState - 1);
   };
 
   const handleReduce = (selectTitle) => {
@@ -56,9 +60,7 @@ const TalentItemBlock = ({ ename }) => {
     }));
   };
 
-  const handleSubmit = () => {
-    localStorage.setItem(ename, JSON.stringify(point));
-  };
+
 
   return (
     <StyledFlex>
@@ -90,9 +92,9 @@ const TalentItemBlock = ({ ename }) => {
       </div>
       <div>
         <p>剩餘點數:{point.total}</p>
-        <button onClick={handleSubmit} disabled={handleDisable()}>
+        <Button variant="secondary" onClick={handleSubmit} disabled={handleSubmitBtnDisable()}>
           Submit
-        </button>
+        </Button>
       </div>
     </StyledFlex>
   );

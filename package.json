@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@babel/core": "^7.12.10",
     "@chakra-ui/core": "0.8.0",
     "@chakra-ui/react": "1.1.1",
     "bootstrap": "^4.5.3",

@@ -24,10 +24,10 @@ const StyledTitle = styled.p`
 const HeroCard = ({ name, src, ename }) => {
   const [click, setClick] = useState(false);
   const handleClick = () => {
-    let hasValue = window.location.href.indexOf(`${ename}`);
-    if (hasValue) {
-      setClick(!click);
-    }
+    // let hasValue = window.location.href.indexOf(`${ename}`);
+    // if (hasValue) {
+    setClick(!click);
+    // }
   };
   return (
     <StyledFigure onClick={handleClick}>

@@ -3,6 +3,7 @@ import { heroData } from "../data/HeroData";
 import HeroCard from "../components/HeroCard";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
 const StyledHeroList = styled.div`
   display: flex;
   justify-content: center;
