@@ -18,21 +18,17 @@ const StyledTitle = styled.p`
   font-weight: bold;
   padding: 5px 0;
   text-decoration: none;
-  background-color: ${(props) => (props.click ? "#0aa" : "#aaa")};
+  background-color: ${(props) => (props.ename === props.select ? "#0aa" : "#aaa")};
 `;
 
-const HeroCard = ({ name, src, ename }) => {
-  const [click, setClick] = useState(false);
+const HeroCard = ({ name, src, ename, setSelect, select }) => {
   const handleClick = () => {
-    // let hasValue = window.location.href.indexOf(`${ename}`);
-    // if (hasValue) {
-    setClick(!click);
-    // }
-  };
+    setSelect(ename)
+  }
   return (
     <StyledFigure onClick={handleClick}>
       <StyledImg src={src} />
-      <StyledTitle click={click}>{name}</StyledTitle>
+      <StyledTitle ename={ename} select={select}>{name}</StyledTitle>
     </StyledFigure>
   );
 };
