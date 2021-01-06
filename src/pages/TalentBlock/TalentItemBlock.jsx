@@ -10,6 +10,10 @@ const StyledFlex = styled.div`
   align-items: center;
 `;
 
+const StyledSpan = styled.span`
+  margin:15px;
+`
+
 const defaultTalent = {
   str: 0,
   int: 0,
@@ -17,6 +21,7 @@ const defaultTalent = {
   luk: 0,
   total: 10
 };
+
 const TalentItemBlock = ({ ename }) => {
 
   const getLocalStorageValue = () => {
@@ -91,7 +96,7 @@ const TalentItemBlock = ({ ename }) => {
         />
       </div>
       <div>
-        <p>剩餘點數:{point.total}</p>
+        <StyledSpan>剩餘點數:{point.total}</StyledSpan>
         <Button variant="secondary" onClick={handleSubmit} disabled={handleSubmitBtnDisable()}>
           Submit
         </Button>

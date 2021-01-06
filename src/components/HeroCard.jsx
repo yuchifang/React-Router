@@ -8,6 +8,14 @@ const StyledFigure = styled.figure`
   margin: 10px 25px;
   cursor: pointer;
   overflow: hidden;
+  &:hover {
+    p{
+      background-color: #0aa;
+      text-decoration: none;
+      outline:none;
+      border:none;
+    }
+  }
 `;
 const StyledImg = styled.img`
   width: 100%;

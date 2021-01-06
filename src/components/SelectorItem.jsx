@@ -6,6 +6,9 @@ const StyledSpanTitle = styled.span`
   margin-right: 50px;
 `;
 
+const StyledSpan = styled.span`
+  margin:0 10px;
+`
 
 const SelectorItem = ({ name, onReduce, onAdd, point }) => {
   const LowerWordName = name.toLowerCase();
@@ -41,7 +44,7 @@ const SelectorItem = ({ name, onReduce, onAdd, point }) => {
       <Button variant="primary" onClick={handleOnAdd} disabled={handleAddDisable()}>
         +
       </Button>
-      <span>{point[LowerWordName]}</span>
+      <StyledSpan>{point[LowerWordName]}</StyledSpan>
       <Button variant="primary" onClick={handleOnReduce} disabled={handleReduceDisable()}>
         -
       </Button>
