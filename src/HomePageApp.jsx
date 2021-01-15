@@ -6,7 +6,7 @@ import heroData from "./data/HeroData.json";
 import "antd/dist/antd.css";
 import { Alert } from "antd";
 import { Spinner, Jumbotron, Container, Row } from "react-bootstrap";
-import styled from "styled-components"
+import styled from "styled-components";
 
 const StyledTalenBlock = styled.div`
   padding-top: 100px;
@@ -52,7 +52,7 @@ const HomePage = () => {
           <HeroBlock initialData={initialData} />
           <Switch>
             <StyledTalenBlock>
-              <Route path="/herogulp/:heroId" component={TalentItemBlock} />
+              <Route path="/heroblock/:heroId" component={TalentItemBlock} />
             </StyledTalenBlock>
           </Switch>
         </BrowserRouter>
