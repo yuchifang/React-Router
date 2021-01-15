@@ -17,7 +17,7 @@ const HeroBlock = ({ initialData }) => {
   return (
     <StyledHeroList>
       {initialData.map(({ id, name, src, ename }) => (
-        <Link key={id} to={`/herocard/${ename}`}>
+        <Link key={id} to={`/herogulp/${ename}`}>
           <HeroCard name={name} src={src} ename={ename} select={select} setSelect={setSelect} />
         </Link>))}
     </StyledHeroList>

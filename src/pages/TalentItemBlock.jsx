@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SelectorItem from "../components/SelectorItem";
 import styled from "styled-components";
 import { Button } from 'react-bootstrap';
@@ -25,18 +25,25 @@ const defaultTalent = {
 const TalentItemBlock = ({ match }) => {
 
   const { heroId } = match.params
-  console.log({ heroId });
-  const ename = 1
-  const getLocalStorageValue = () => {
-    var defaultValue = JSON.parse(localStorage.getItem(heroId));
-    if (!!defaultValue) {
-      return defaultValue;
-    } else {
-      return defaultTalent;
-    }
-  };
+  const [point, setPoint] = useState(defaultTalent);
 
-  const [point, setPoint] = useState(getLocalStorageValue);
+  console.log("heroId", heroId);
+  console.log("point", point);
+  useEffect(() => {
+    const getLocalStorageValue = () => {
+      const defaultValue = JSON.parse(localStorage.getItem(heroId));
+      console.log("defaultValue", defaultValue);
+      if (!!defaultValue) {
+        setPoint(defaultValue)
+      } else {
+        console.log("wwwwwwwwwwwwwww");
+        setPoint(defaultTalent)
+      }
+    };
+    getLocalStorageValue()
+  }, [])
+
+
 
   const handleSubmitBtnDisable = () => {
     if (point.total === 0) {
