@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import HeroBlock from "./pages/HeroBlock";
-import TalentBlock from "./pages/TalentBlock";
-import { BrowserRouter, Switch } from "react-router-dom";
+import TalentItemBlock from "./pages/TalentItemBlock";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import heroData from "./data/HeroData.json";
 import "antd/dist/antd.css";
 import { Alert } from "antd";
 import { Spinner, Jumbotron, Container, Row } from "react-bootstrap";
+import styled from "styled-components"
+
+const StyledTalenBlock = styled.div`
+  padding-top: 100px;
+  background-color: #eee;
+  padding-bottom: 100px;
+`;
 
 const SHUTDOWN_RATE = 0.2;
 
@@ -44,7 +51,9 @@ const HomePage = () => {
         <BrowserRouter>
           <HeroBlock initialData={initialData} />
           <Switch>
-            <TalentBlock initialData={initialData} />
+            <StyledTalenBlock>
+              <Route path="/herocard/:heroId" component={TalentItemBlock} />
+            </StyledTalenBlock>
           </Switch>
         </BrowserRouter>
       )}
