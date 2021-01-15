@@ -14,7 +14,7 @@ const StyledSpan = styled.span`
   margin:15px;
 `
 
-const defaultTalent = {
+const defaultTalentValue = {
   str: 0,
   int: 0,
   agi: 0,
@@ -25,23 +25,19 @@ const defaultTalent = {
 const TalentItemBlock = ({ match }) => {
 
   const { heroId } = match.params
-  const [point, setPoint] = useState(defaultTalent);
+  const [point, setPoint] = useState(defaultTalentValue);
 
-  console.log("heroId", heroId);
-  console.log("point", point);
   useEffect(() => {
     const getLocalStorageValue = () => {
-      const defaultValue = JSON.parse(localStorage.getItem(heroId));
-      console.log("defaultValue", defaultValue);
-      if (!!defaultValue) {
-        setPoint(defaultValue)
+      const localStorageValue = JSON.parse(localStorage.getItem(heroId));
+      if (!!localStorageValue) {
+        setPoint(localStorageValue)
       } else {
-        console.log("wwwwwwwwwwwwwww");
-        setPoint(defaultTalent)
+        setPoint(defaultTalentValue)
       }
     };
     getLocalStorageValue()
-  }, [])
+  }, [heroId])
 
 
 
