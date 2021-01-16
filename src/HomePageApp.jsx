@@ -7,6 +7,7 @@ import "antd/dist/antd.css";
 import { Alert } from "antd";
 import { Spinner, Jumbotron, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
+import axios from "axios"
 
 const StyledTalenBlock = styled.div`
   padding-top: 100px;
@@ -22,29 +23,40 @@ const HomePage = () => {
   const [webStatus, setWebStatus] = useState("idle");
 
   useEffect(() => {
-    getData()
+    axios.get("http://hahow-recruit.herokuapp.com/heroes")
       .then((res) => {
-        setInitialData(res);
+        const heroData = res.data
+
+        setInitialData(heroData)
+      }).catch((err) => {
+        console.log("err", err);
+        setWebStatus("error");
+      }).finally(() => {
         setWebStatus("success");
       })
-      .catch((err) => {
-        setWebStatus("error");
-      });
+    // getData()
+    //   .then(() => {
+
+    //     setInitialData(res);
+    //     setWebStatus("success");
+    //   })
+    //   .catch((err) => {
+    //     setWebStatus("error");
+    //   });
   }, []);
 
   // const delay = (ms) => {
   //   return new Promise((resolve) => setTimeout(resolve, ms));
   // }
 
-  const getData = async () => {
-    const a = await new Promise((resolve) =>
-      setTimeout(resolve, Math.random() * 1000 + 1000)
-    );
-    if (Math.random() < SHUTDOWN_RATE) {
-      throw new Error("模擬錯誤 請重新整理");
-    }
-    return heroData;
-  };
+  // const getData = async () => {
+  //   const a = await new Promise((resolve) =>
+  //     setTimeout(resolve, Math.random() * 1000 + 1000)
+  //   );
+  //   if (Math.random() < SHUTDOWN_RATE) {
+  //     throw new Error("模擬錯誤 請重新整理");
+  //   }
+  // };
   return (
     <>
       {webStatus === "success" && (
@@ -52,7 +64,7 @@ const HomePage = () => {
           <HeroBlock initialData={initialData} />
           <Switch>
             <StyledTalenBlock>
-              <Route path="/heroblock/:heroId" component={TalentItemBlock} />
+              <Route path="/heroes/:heroId" component={TalentItemBlock} />
             </StyledTalenBlock>
           </Switch>
         </BrowserRouter>

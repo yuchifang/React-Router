@@ -8,7 +8,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/heroblock" component={HomePage} />
+        <Route path="/heroes" component={HomePage} />
       </Switch>
     </BrowserRouter>
   );

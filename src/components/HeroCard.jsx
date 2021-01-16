@@ -26,17 +26,18 @@ const StyledTitle = styled.p`
   font-weight: bold;
   padding: 5px 0;
   text-decoration: none;
-  background-color: ${(props) => (props.ename === props.select ? "#0aa" : "#aaa")};
+  background-color: ${(props) => (props.heroid === props.select ? "#0aa" : "#aaa")};
 `;
 
-const HeroCard = ({ name, src, ename, setSelect, select }) => {
+const HeroCard = ({ name, src, heroid, setSelect, select }) => {
+
   const handleClick = () => {
-    setSelect(ename)
+    setSelect(heroid)
   }
   return (
     <StyledFigure onClick={handleClick}>
       <StyledImg src={src} />
-      <StyledTitle ename={ename} select={select}>{name}</StyledTitle>
+      <StyledTitle uid={heroid} select={select}>{name}</StyledTitle>
     </StyledFigure>
   );
 };
