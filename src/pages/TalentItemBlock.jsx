@@ -28,11 +28,9 @@ const TalentItemBlock = ({ match }) => {
   const [point, setPoint] = useState(defaultTalentValue);
 
   useEffect(() => {
-    console.log("wwwwwwwww");
     axios.get(`http://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`)
       .then((res) => {
         const heroApiPoint = res.data
-
         setPoint({ ...point, ...heroApiPoint })
       })
       .catch((err) => {
@@ -63,7 +61,18 @@ const TalentItemBlock = ({ match }) => {
   };
 
   const handleSubmit = () => {
-    localStorage.setItem(heroId, JSON.stringify(point));
+    axios.patch(`http://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`, {
+      str: point.str,
+      int: point.int,
+      agi: point.agi,
+      luk: point.luk,
+    })
+      .then((res) => {
+        console.log("res", res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   };
 
   const handleAdd = (selectTitle) => {

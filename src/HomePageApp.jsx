@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import HeroBlock from "./pages/HeroBlock";
 import TalentItemBlock from "./pages/TalentItemBlock";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import heroData from "./data/HeroData.json";
 import "antd/dist/antd.css";
 import { Alert } from "antd";
 import { Spinner, Jumbotron, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
 import axios from "axios"
+import { useHerosCard } from "./hook"
+
 
 const StyledTalenBlock = styled.div`
   padding-top: 100px;
@@ -15,26 +16,26 @@ const StyledTalenBlock = styled.div`
   padding-bottom: 100px;
 `;
 
-const SHUTDOWN_RATE = 0.2;
-
 const HomePage = () => {
-  const [initialData, setInitialData] = useState();
+  // const [initialData, setInitialData] = useState();
 
-  const [webStatus, setWebStatus] = useState("idle");
+  // const [webStatus, setWebStatus] = useState("idle");
+  const { initialData, webStatus } = useHerosCard()
+  console.log("initialDataA", initialData);
+  console.log("webStatusA", webStatus)
+  // useEffect(() => {
+  //   axios.get("http://hahow-recruit.herokuapp.com/heroes")
+  //     .then((res) => {
+  //       const heroData = res.data
 
-  useEffect(() => {
-    axios.get("http://hahow-recruit.herokuapp.com/heroes")
-      .then((res) => {
-        const heroData = res.data
-
-        setInitialData(heroData)
-      }).catch((err) => {
-        console.log("err", err);
-        setWebStatus("error");
-      }).finally(() => {
-        setWebStatus("success");
-      })
-  }, []);
+  //       setInitialData(heroData)
+  //     }).catch((err) => {
+  //       console.log("err", err);
+  //       setWebStatus("error");
+  //     }).finally(() => {
+  //       setWebStatus("success");
+  //     })
+  // }, []);
 
   return (
     <>
