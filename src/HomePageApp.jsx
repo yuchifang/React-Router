@@ -6,7 +6,6 @@ import "antd/dist/antd.css";
 import { Alert } from "antd";
 import { Spinner, Jumbotron, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
-import axios from "axios"
 import { useHerosCard } from "./hook"
 
 
@@ -14,29 +13,12 @@ const StyledTalenBlock = styled.div`
   padding-top: 100px;
   background-color: #eee;
   padding-bottom: 100px;
+  position:relative;
 `;
 
 const HomePage = () => {
-  // const [initialData, setInitialData] = useState();
 
-  // const [webStatus, setWebStatus] = useState("idle");
   const { initialData, webStatus } = useHerosCard()
-  console.log("initialDataA", initialData);
-  console.log("webStatusA", webStatus)
-  // useEffect(() => {
-  //   axios.get("http://hahow-recruit.herokuapp.com/heroes")
-  //     .then((res) => {
-  //       const heroData = res.data
-
-  //       setInitialData(heroData)
-  //     }).catch((err) => {
-  //       console.log("err", err);
-  //       setWebStatus("error");
-  //     }).finally(() => {
-  //       setWebStatus("success");
-  //     })
-  // }, []);
-
   return (
     <>
       {webStatus === "success" && (

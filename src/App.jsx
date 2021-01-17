@@ -16,3 +16,4 @@ const App = () => {
 export default App;
 
 //加上CustomHook
+//沒有網路的情況

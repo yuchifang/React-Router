@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SelectorItem from "../components/SelectorItem";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Button } from 'react-bootstrap';
-import axios from "axios"
+import { Alert } from "antd";
+import { useHeroTalent } from "../hook"
 
 const StyledFlex = styled.div`
   display: flex;
@@ -13,44 +14,38 @@ const StyledFlex = styled.div`
 const StyledSpan = styled.span`
   margin:15px;
 `
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
 
-const defaultTalentValue = {
-  str: 0,
-  int: 0,
-  agi: 0,
-  luk: 0,
-  total: 0
-};
+  to {
+    opacity: 0;
+  }
+`;
+
+const StyledError = styled.div`
+  opacity: 0;
+  position: absolute;
+  height: 150px;
+  width: 300px;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: 0;
+  animation: ${fadeOut} 2s
+`
+
 
 const TalentItemBlock = ({ match }) => {
 
   const { heroId } = match.params
-  const [point, setPoint] = useState(defaultTalentValue);
+  const { webStatus, point, handleAdd, handleReduce, updateUser } = useHeroTalent(heroId)
+  const [updateStatus, setUpdateStatus] = useState("idle")
 
-  useEffect(() => {
-    axios.get(`http://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`)
-      .then((res) => {
-        const heroApiPoint = res.data
-        setPoint({ ...point, ...heroApiPoint })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [heroId])
-
-  // useEffect(() => {
-  //   const getLocalStorageValue = () => {
-  //     const localStorageValue = JSON.parse(localStorage.getItem(heroId));
-  //     if (!!localStorageValue) {
-  //       setPoint(localStorageValue)
-  //     } else {
-  //       setPoint(defaultTalentValue)
-  //     }
-  //   };
-  //   getLocalStorageValue()
-  // }, [heroId])
-
-
+  console.log("point", point)
+  //解決方式 把point 放到 custom hooks?
 
   const handleSubmitBtnDisable = () => {
     if (point.total === 0) {
@@ -61,75 +56,66 @@ const TalentItemBlock = ({ match }) => {
   };
 
   const handleSubmit = () => {
-    axios.patch(`http://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`, {
-      str: point.str,
-      int: point.int,
-      agi: point.agi,
-      luk: point.luk,
-    })
+    setUpdateStatus("loading")
+    updateUser()
       .then((res) => {
-        console.log("res", res)
+        setUpdateStatus("success")
       })
       .catch((err) => {
-        console.log(err)
+        setUpdateStatus("error")
       })
   };
 
-  const handleAdd = (selectTitle) => {
-    setPoint((preState) => {
-      return {
-        ...preState,
-        [selectTitle]: point[selectTitle] + 1,
-        total: point.total - 1
-      };
-    });
-  };
-
-  const handleReduce = (selectTitle) => {
-    setPoint((preState) => ({
-      ...preState,
-      [selectTitle]: point[selectTitle] - 1,
-      total: point.total + 1
-    }));
-  };
-
-
-
   return (
-    <StyledFlex>
-      <div>
-        <SelectorItem
-          point={point}
-          onReduce={handleReduce}
-          onAdd={handleAdd}
-          name="STR"
-        />
-        <SelectorItem
-          point={point}
-          onReduce={handleReduce}
-          onAdd={handleAdd}
-          name="INT"
-        />
-        <SelectorItem
-          point={point}
-          onReduce={handleReduce}
-          onAdd={handleAdd}
-          name="AGI"
-        />
-        <SelectorItem
-          point={point}
-          onReduce={handleReduce}
-          onAdd={handleAdd}
-          name="LUK"
-        />
-      </div>
-      <div>
-        <StyledSpan>剩餘點數:{point.total}</StyledSpan>
-        <Button variant="secondary" onClick={handleSubmit} disabled={handleSubmitBtnDisable()}>
-          Submit
-        </Button>
-      </div>
-    </StyledFlex>
-  );
+    <>
+      {
+        updateStatus === "error" &&
+        <StyledError>
+          <Alert
+            message="Error"
+            description="更新錯誤"
+            type="error"
+            showIcon
+          />
+        </StyledError>
+      }
+      { webStatus === "success" && (
+        <StyledFlex>
+          <div>
+            <SelectorItem
+              point={point}
+              onReduce={handleReduce}
+              onAdd={handleAdd}
+              name="STR"
+            />
+            <SelectorItem
+              point={point}
+              onReduce={handleReduce}
+              onAdd={handleAdd}
+              name="INT"
+            />
+            <SelectorItem
+              point={point}
+              onReduce={handleReduce}
+              onAdd={handleAdd}
+              name="AGI"
+            />
+            <SelectorItem
+              point={point}
+              onReduce={handleReduce}
+              onAdd={handleAdd}
+              name="LUK"
+            />
+          </div>
+          <div>
+            <StyledSpan>剩餘點數:{point.total}</StyledSpan>
+            <Button variant="secondary" onClick={handleSubmit} disabled={handleSubmitBtnDisable()}>
+              Submit
+            </Button>
+          </div>
+        </StyledFlex>)
+      }
+    </>
+  )
 };
 export default TalentItemBlock;
