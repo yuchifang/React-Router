@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SelectorItem from "../components/SelectorItem";
 import styled, { keyframes } from "styled-components";
-import { Button } from 'react-bootstrap';
+import { Button } from "react-bootstrap";
 import { Alert } from "antd";
-import { useHeroTalent } from "../hook"
+import { useHeroTalent } from "../hook";
 
 const StyledFlex = styled.div`
   display: flex;
@@ -12,8 +12,8 @@ const StyledFlex = styled.div`
 `;
 
 const StyledSpan = styled.span`
-  margin:15px;
-`
+  margin: 15px;
+`;
 const fadeOut = keyframes`
   from {
     opacity: 1;
@@ -34,17 +34,17 @@ const StyledError = styled.div`
   bottom: 0;
   margin: auto;
   right: 0;
-  animation: ${fadeOut} 2s
-`
-
+  animation: ${fadeOut} 2s;
+`;
 
 const TalentItemBlock = ({ match }) => {
+  const { heroId } = match.params;
+  const { state, point, handleAdd, handleReduce, updateUser } = useHeroTalent(
+    heroId
+  );
+  const [updateStatus, setUpdateStatus] = useState("idle");
 
-  const { heroId } = match.params
-  const { webStatus, point, handleAdd, handleReduce, updateUser } = useHeroTalent(heroId)
-  const [updateStatus, setUpdateStatus] = useState("idle")
-
-  console.log("point", point)
+  console.log("point", point);
   //解決方式 把point 放到 custom hooks?
 
   const handleSubmitBtnDisable = () => {
@@ -56,30 +56,24 @@ const TalentItemBlock = ({ match }) => {
   };
 
   const handleSubmit = () => {
-    setUpdateStatus("loading")
+    setUpdateStatus("loading");
     updateUser()
       .then((res) => {
-        setUpdateStatus("success")
+        setUpdateStatus("success");
       })
       .catch((err) => {
-        setUpdateStatus("error")
-      })
+        setUpdateStatus("error");
+      });
   };
 
   return (
     <>
-      {
-        updateStatus === "error" &&
+      {updateStatus === "error" && (
         <StyledError>
-          <Alert
-            message="Error"
-            description="更新錯誤"
-            type="error"
-            showIcon
-          />
+          <Alert message="Error" description="更新錯誤" type="error" showIcon />
         </StyledError>
-      }
-      { webStatus === "success" && (
+      )}
+      {state === "success" && (
         <StyledFlex>
           <div>
             <SelectorItem
@@ -109,13 +103,17 @@ const TalentItemBlock = ({ match }) => {
           </div>
           <div>
             <StyledSpan>剩餘點數:{point.total}</StyledSpan>
-            <Button variant="secondary" onClick={handleSubmit} disabled={handleSubmitBtnDisable()}>
+            <Button
+              variant="secondary"
+              onClick={handleSubmit}
+              disabled={handleSubmitBtnDisable()}
+            >
               Submit
             </Button>
           </div>
-        </StyledFlex>)
-      }
+        </StyledFlex>
+      )}
     </>
-  )
+  );
 };
 export default TalentItemBlock;

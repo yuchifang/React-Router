@@ -6,24 +6,22 @@ import "antd/dist/antd.css";
 import { Alert } from "antd";
 import { Spinner, Jumbotron, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
-import { useHerosCard } from "./hook"
-
+import { useHeroes } from "./hook";
 
 const StyledTalenBlock = styled.div`
   padding-top: 100px;
   background-color: #eee;
   padding-bottom: 100px;
-  position:relative;
+  position: relative;
 `;
 
 const HomePage = () => {
-
-  const { initialData, webStatus } = useHerosCard()
+  const { heroes, state } = useHeroes();
   return (
     <>
-      {webStatus === "success" && (
+      {state === "success" && (
         <BrowserRouter>
-          <HeroBlock initialData={initialData} />
+          <HeroBlock initialData={heroes} />
           <Switch>
             <StyledTalenBlock>
               <Route path="/heroes/:heroId" component={TalentItemBlock} />
@@ -31,7 +29,7 @@ const HomePage = () => {
           </Switch>
         </BrowserRouter>
       )}
-      {(webStatus === "loading" || webStatus === "idle") && (
+      {(state === "loading" || state === "idle") && (
         <Container>
           <Row className="justify-content-center">
             <Jumbotron>
@@ -40,7 +38,7 @@ const HomePage = () => {
           </Row>
         </Container>
       )}
-      {webStatus === "error" && (
+      {state === "error" && (
         <Alert
           description="模擬錯誤 請重新整理"
           message="Error"
