@@ -13,13 +13,13 @@ const StyledHeroList = styled.div`
 `;
 
 const HeroBlock = ({ initialData }) => {
-  console.log("initialData", initialData)
   const [select, setSelect] = useState("idle"); //判斷哪個hero被選到
   return (
     <StyledHeroList>
       {initialData.map(({ id, name, image }) => (
         <Link key={id} to={`/heroes/${id}`}>
           <HeroCard
+            path={`/heroes/${id}`}
             name={name}
             src={image}
             heroid={id}

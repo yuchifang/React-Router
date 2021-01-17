@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledFigure = styled.figure`
@@ -26,18 +27,19 @@ const StyledTitle = styled.p`
   font-weight: bold;
   padding: 5px 0;
   text-decoration: none;
-  background-color: ${(props) => (props.heroid === props.select ? "#0aa" : "#aaa")};
+  background-color: ${(props) => (props.hasSelect ? "#0aa" : "#aaa")};
 `;
 
-const HeroCard = ({ name, src, heroid, setSelect, select }) => {
-
+const HeroCard = ({ name, src, heroid, setSelect, path }) => {
+  let initUrl = window.location.href
+  let hasSelect = initUrl.indexOf(path) > -1 ? true : false
   const handleClick = () => {
     setSelect(heroid)
   }
   return (
     <StyledFigure onClick={handleClick}>
       <StyledImg src={src} />
-      <StyledTitle uid={heroid} select={select}>{name}</StyledTitle>
+      <StyledTitle hasSelect={hasSelect}>{name}</StyledTitle>
     </StyledFigure>
   );
 };

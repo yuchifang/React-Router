@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SelectorItem from "../components/SelectorItem";
 import styled from "styled-components";
 import { Button } from 'react-bootstrap';
-
+import axios from "axios"
 
 const StyledFlex = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const defaultTalentValue = {
   int: 0,
   agi: 0,
   luk: 0,
-  total: 10
+  total: 0
 };
 
 const TalentItemBlock = ({ match }) => {
@@ -28,16 +28,29 @@ const TalentItemBlock = ({ match }) => {
   const [point, setPoint] = useState(defaultTalentValue);
 
   useEffect(() => {
-    const getLocalStorageValue = () => {
-      const localStorageValue = JSON.parse(localStorage.getItem(heroId));
-      if (!!localStorageValue) {
-        setPoint(localStorageValue)
-      } else {
-        setPoint(defaultTalentValue)
-      }
-    };
-    getLocalStorageValue()
+    console.log("wwwwwwwww");
+    axios.get(`http://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`)
+      .then((res) => {
+        const heroApiPoint = res.data
+
+        setPoint({ ...point, ...heroApiPoint })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [heroId])
+
+  // useEffect(() => {
+  //   const getLocalStorageValue = () => {
+  //     const localStorageValue = JSON.parse(localStorage.getItem(heroId));
+  //     if (!!localStorageValue) {
+  //       setPoint(localStorageValue)
+  //     } else {
+  //       setPoint(defaultTalentValue)
+  //     }
+  //   };
+  //   getLocalStorageValue()
+  // }, [heroId])
 
 
 
