@@ -6,7 +6,7 @@ import "antd/dist/antd.css";
 import { Alert } from "antd";
 import { Spinner, Jumbotron, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
-import { useHeroes } from "./hook";
+import { useHeroeData } from "./hook";
 
 const StyledTalenBlock = styled.div`
   padding-top: 100px;
@@ -16,12 +16,12 @@ const StyledTalenBlock = styled.div`
 `;
 
 const HomePage = () => {
-  const { heroes, state } = useHeroes();
+  const { heroeData, state } = useHeroeData();
   return (
     <>
       {state === "success" && (
         <BrowserRouter>
-          <HeroBlock initialData={heroes} />
+          <HeroBlock heroeData={heroeData} />
           <Switch>
             <StyledTalenBlock>
               <Route path="/heroes/:heroId" component={TalentItemBlock} />

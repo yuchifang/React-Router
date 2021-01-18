@@ -1,25 +1,28 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const useHeroes = () => {
-  const [heroes, setHeroes] = useState();
+export const useHeroeData = () => {
+  const [heroeData, setHeroeData] = useState();
   const [state, setState] = useState("idle");
 
   useEffect(() => {
+    setState("loading")
     const axiosHerosCardData = async () => {
-      try {
-        const { data: herosCardData } = await axios.get(
-          "https://hahow-recruit.herokuapp.com/heroes"
-        );
-        setHeroes(herosCardData);
-        setState("success");
-      } catch (error) {
-        setState("error");
-      }
+      const { data: herosCardData } = await axios.get(
+        "https://hahow-recruit.herokuapp.com/heroes"
+      );
+      return herosCardData
     };
-    axiosHerosCardData();
+    axiosHerosCardData().then((data) => {
+      setHeroeData(data);
+    }).then(() => {
+      setState("success");
+    }).catch(() => {
+      setState("error");
+    })
+
   }, []);
-  return { heroes, state };
+  return { heroeData, state };
 };
 
 const defaultTalentValue = {
@@ -33,7 +36,6 @@ const defaultTalentValue = {
 export const useHeroTalent = (heroId) => {
   const [point, setPoint] = useState(defaultTalentValue);
   const [state, setState] = useState("idle");
-  // const [point, setPoint] = useState(initPoint);
 
   const handleAdd = (selectTitle) => {
     setPoint((preState) => {
@@ -54,20 +56,21 @@ export const useHeroTalent = (heroId) => {
   };
 
   useEffect(() => {
-    //這邊
+    setState("loading")
     const axiosHerosTalentData = async () => {
-      try {
-        const { data: heroApiPoint } = await axios.get(
-          `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`
-        );
-        setPoint({ ...point, ...heroApiPoint });
-      } catch (error) {
-        setState("error");
-      } finally {
-        setState("success");
-      }
+      const { data: heroApiPoint } = await axios.get(
+        `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`
+      );
+      return heroApiPoint
     };
-    axiosHerosTalentData();
+    axiosHerosTalentData()
+      .then((heroApiPoint) => {
+        setPoint({ ...point, ...heroApiPoint });
+      }).then(() => {
+        setState("success");
+      }).catch(() => {
+        setState("error");
+      })
   }, [heroId]);
 
   return {
@@ -86,6 +89,23 @@ export const useHeroTalent = (heroId) => {
         }
       );
       return res;
+    },
+    getHerosTalentData: () => {
+      setState("loading")
+      const axiosHerosTalentData = async () => {
+        const { data: heroApiPoint } = await axios.get(
+          `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`
+        );
+        return heroApiPoint
+      };
+      axiosHerosTalentData()
+        .then((heroApiPoint) => {
+          setPoint({ ...point, ...heroApiPoint });
+        }).then(() => {
+          setState("success");
+        }).catch(() => {
+          setState("error");
+        })
     }
   };
 };

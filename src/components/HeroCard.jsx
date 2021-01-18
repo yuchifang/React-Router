@@ -27,19 +27,19 @@ const StyledTitle = styled.p`
   font-weight: bold;
   padding: 5px 0;
   text-decoration: none;
-  background-color: ${(props) => (props.hasSelect ? "#0aa" : "#aaa")};
+  background-color: ${(props) => (props.hasHeroCardSelect ? "#0aa" : "#aaa")};
 `;
 
 const HeroCard = ({ name, src, heroid, setSelect, path }) => {
-  let initUrl = window.location.href
-  let hasSelect = initUrl.indexOf(path) > -1 ? true : false
+  const locationUrl = window.location.href
+  const hasHeroCardSelect = locationUrl.indexOf(path) > -1 ? true : false
   const handleClick = () => {
     setSelect(heroid)
   }
   return (
     <StyledFigure onClick={handleClick}>
       <StyledImg src={src} />
-      <StyledTitle hasSelect={hasSelect}>{name}</StyledTitle>
+      <StyledTitle hasHeroCardSelect={hasHeroCardSelect}>{name}</StyledTitle>
     </StyledFigure>
   );
 };

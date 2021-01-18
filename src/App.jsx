@@ -14,6 +14,6 @@ const App = () => {
   );
 };
 export default App;
-
-//加上CustomHook
+//clean code ok
 //沒有網路的情況
+//修改加上refetch

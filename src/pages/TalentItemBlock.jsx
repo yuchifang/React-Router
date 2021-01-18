@@ -39,13 +39,10 @@ const StyledError = styled.div`
 
 const TalentItemBlock = ({ match }) => {
   const { heroId } = match.params;
-  const { state, point, handleAdd, handleReduce, updateUser } = useHeroTalent(
+  const [updateStatus, setUpdateStatus] = useState("idle");
+  const { state, point, handleAdd, handleReduce, updateUser, getHerosTalentData } = useHeroTalent(
     heroId
   );
-  const [updateStatus, setUpdateStatus] = useState("idle");
-
-  console.log("point", point);
-  //解決方式 把point 放到 custom hooks?
 
   const handleSubmitBtnDisable = () => {
     if (point.total === 0) {
@@ -60,6 +57,8 @@ const TalentItemBlock = ({ match }) => {
     updateUser()
       .then((res) => {
         setUpdateStatus("success");
+      }).then(() => {
+        getHerosTalentData()
       })
       .catch((err) => {
         setUpdateStatus("error");
