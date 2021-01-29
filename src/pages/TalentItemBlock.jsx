@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SelectorItem from "../components/SelectorItem";
 import styled, { keyframes } from "styled-components";
-import { Button } from "react-bootstrap";
+import { Button, Container, Jumbotron, Row, Spinner } from "react-bootstrap";
 import { Alert } from "antd";
 import { useHeroTalent } from "../hook";
 
@@ -39,7 +39,6 @@ const StyledError = styled.div`
 
 const TalentItemBlock = ({ match }) => {
   const { heroId } = match.params;
-  const [updateStatus, setUpdateStatus] = useState("idle");
   const { state, point, handleAdd, handleReduce, updateUser, getHerosTalentData } = useHeroTalent(
     heroId
   );
@@ -53,24 +52,24 @@ const TalentItemBlock = ({ match }) => {
   };
 
   const handleSubmit = () => {
-    setUpdateStatus("loading");
     updateUser()
-      .then((res) => {
-        setUpdateStatus("success");
-      }).then(() => {
-        getHerosTalentData()
-      })
-      .catch((err) => {
-        setUpdateStatus("error");
-      });
   };
 
   return (
     <>
-      {updateStatus === "error" && (
+      {state === "error" && (
         <StyledError>
           <Alert message="Error" description="更新錯誤" type="error" showIcon />
         </StyledError>
+      )}
+      {(state === "loading" || state === "idle") && (
+        <Container>
+          <Row className="justify-content-center">
+            <Jumbotron>
+              <Spinner width="90%" animation="border" />
+            </Jumbotron>
+          </Row>
+        </Container>
       )}
       {state === "success" && (
         <StyledFlex>

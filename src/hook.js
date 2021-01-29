@@ -37,6 +37,18 @@ export const useHeroTalent = (heroId) => {
   const [point, setPoint] = useState(defaultTalentValue);
   const [state, setState] = useState("idle");
 
+  useEffect(() => {
+    setState("loading")
+    axiosHerosTalentData()
+      .then((heroApiPoint) => {
+        setPoint({ ...point, ...heroApiPoint });
+      }).then(() => {
+        setState("success");
+      }).catch(() => {
+        setState("error");
+      })
+  }, [heroId]);
+
   const handleAdd = (selectTitle) => {
     setPoint((preState) => {
       return {
@@ -55,57 +67,46 @@ export const useHeroTalent = (heroId) => {
     }));
   };
 
-  useEffect(() => {
-    setState("loading")
-    const axiosHerosTalentData = async () => {
-      const { data: heroApiPoint } = await axios.get(
-        `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`
-      );
-      return heroApiPoint
-    };
-    axiosHerosTalentData()
-      .then((heroApiPoint) => {
-        setPoint({ ...point, ...heroApiPoint });
-      }).then(() => {
-        setState("success");
-      }).catch(() => {
-        setState("error");
-      })
-  }, [heroId]);
+  const axiosHerosTalentData = async () => {
+    const { data: heroApiPoint } = await axios.get(
+      `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`
+    );
+    return heroApiPoint
+  };
+
+
+
 
   return {
     state,
     point,
     handleAdd: handleAdd,
     handleReduce: handleReduce,
-    updateUser: async () => {
-      const res = await axios.patch(
-        `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`,
-        {
-          str: point.str,
-          int: point.int,
-          agi: point.agi,
-          luk: point.luk
-        }
-      );
-      return res;
-    },
-    getHerosTalentData: () => {
-      setState("loading")
-      const axiosHerosTalentData = async () => {
-        const { data: heroApiPoint } = await axios.get(
-          `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`
+    updateUser: () => {
+      const axiosUpdateUser = async () => {
+        const res = await axios.patch(
+          `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`,
+          {
+            str: point.str,
+            int: point.int,
+            agi: point.agi,
+            luk: point.luk
+          }
         );
-        return heroApiPoint
-      };
-      axiosHerosTalentData()
-        .then((heroApiPoint) => {
-          setPoint({ ...point, ...heroApiPoint });
-        }).then(() => {
-          setState("success");
-        }).catch(() => {
-          setState("error");
+        return res;
+      }
+      axiosUpdateUser()
+        .then(() => {
+          setState("success")
         })
+        .then(() => {
+          axiosHerosTalentData()
+        })
+        .catch((err) => {
+          setState("error");
+        });
+
     }
+
   };
 };
