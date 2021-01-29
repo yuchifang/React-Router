@@ -10,22 +10,27 @@ const StyledHeroList = styled.div`
   a:hover {
     text-decoration: none;
   }
+  a {
+    margin: 10px 25px;
+  }
+  a:focus{
+    figure{
+      p{
+        background-color: #0aa ;
+      }
+    }
+  }
 `;
 
 const HeroBlock = ({ heroeData }) => {
-  const [select, setSelect] = useState("idle"); //判斷哪個hero被選到
   return (
     <StyledHeroList>
       {heroeData?.length > 0 &&
         heroeData.map(({ id, name, image }) => (
           <Link key={id} to={`/heroes/${id}`}>
             <HeroCard
-              path={`/heroes/${id}`}
               name={name}
               src={image}
-              heroid={id}
-              select={select}
-              setSelect={setSelect}
             />
           </Link>
         ))}

@@ -6,7 +6,6 @@ const StyledFigure = styled.figure`
   width: 250px;
   background-color: #ccc;
   border-radius: 10px;
-  margin: 10px 25px;
   cursor: pointer;
   overflow: hidden;
   &:hover {
@@ -26,20 +25,15 @@ const StyledTitle = styled.p`
   text-align: center;
   font-weight: bold;
   padding: 5px 0;
-  text-decoration: none;
-  background-color: ${(props) => (props.hasHeroCardSelect ? "#0aa" : "#aaa")};
+  text-decoration: none;  
 `;
 
-const HeroCard = ({ name, src, heroid, setSelect, path }) => {
-  const locationUrl = window.location.href
-  const hasHeroCardSelect = locationUrl.indexOf(path) > -1 ? true : false
-  const handleClick = () => {
-    setSelect(heroid)
-  }
+const HeroCard = ({ name, src }) => {
+
   return (
-    <StyledFigure onClick={handleClick}>
+    <StyledFigure >
       <StyledImg src={src} />
-      <StyledTitle hasHeroCardSelect={hasHeroCardSelect}>{name}</StyledTitle>
+      <StyledTitle >{name}</StyledTitle>
     </StyledFigure>
   );
 };
